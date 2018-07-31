@@ -11,11 +11,12 @@
         }
     ],
     "require": {
-        "php": ">=7.0"
+        "php": ">=7.0",
+        "php-pm/httpkernel-adapter": "*"
     },
     "autoload": {
         "psr-4": {
-            "DigitSoft\\LaravelPpmBridge\\": "src/"
+            "DigitSoft\\LaravelPpm\\": "src/"
         }
     },
     "extra": {
