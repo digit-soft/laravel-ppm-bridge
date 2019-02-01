@@ -9,6 +9,19 @@ namespace DigitSoft\LaravelPpm;
 class Laravel extends \PHPPM\Bootstraps\Laravel
 {
     /**
+     * Instantiate the bootstrap, storing the $appenv
+     *
+     * @param string|null $appenv The environment your application will use to bootstrap (if any)
+     * @param boolean     $debug
+     */
+    public function initialize($appenv, $debug)
+    {
+        $this->appenv = $appenv;
+        $this->debug = $debug;
+        putenv("APP_ENV=" . $this->appenv);
+    }
+
+    /**
      * @param \Illuminate\Contracts\Foundation\Application $app
      */
     public function postHandle($app)
