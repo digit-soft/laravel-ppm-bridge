@@ -33,7 +33,7 @@ class HttpKernel extends \PHPPM\Bridges\HttpKernel
         /** @var \Illuminate\Foundation\Application $app */
         $app = $this->application ? $this->application->getApplication() : null;
         // Handle errors during Laravel's first boot
-        if ($app && !$app->isBooted()) {
+        if (!$app || !$app->isBooted()) {
             error_log("\nRe-Bootstrap application because app was not booted properly");
             $this->reBootstrap();
         }
