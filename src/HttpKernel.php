@@ -2,6 +2,7 @@
 
 namespace DigitSoft\LaravelPpm;
 
+use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 /**
@@ -27,7 +28,7 @@ class HttpKernel extends \PHPPM\Bridges\HttpKernel
     /**
      * @inheritdoc
      */
-    public function handle(ServerRequestInterface $request)
+    public function handle(ServerRequestInterface $request): ResponseInterface
     {
         $response = parent::handle($request);
         /** @var \Illuminate\Foundation\Application $app */
