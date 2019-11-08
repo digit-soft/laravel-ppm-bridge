@@ -6,7 +6,8 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 /**
- * Class HttpKernel (Not used at now)
+ * Class HttpKernel.
+ *
  * @package DigitSoft\LaravelPpm
  */
 class HttpKernel extends \PHPPM\Bridges\HttpKernel
@@ -34,23 +35,27 @@ class HttpKernel extends \PHPPM\Bridges\HttpKernel
         /** @var \Illuminate\Foundation\Application $app */
         $app = $this->application ? $this->application->getApplication() : null;
         // Handle errors during Laravel's first boot
-        if (!$app || !$app->isBooted()) {
+        if (! $app || ! $app->isBooted()) {
             error_log("\nRe-Bootstrap application because app was not booted properly");
             $this->reBootstrap();
         }
+
         return $response;
     }
 
     /**
-     * Re-bootstrap
+     * Re-bootstrap.
+     *
      * @return bool
      */
     protected function reBootstrap()
     {
-        if (!empty($this->bootstrapArgs)) {
+        if (! empty($this->bootstrapArgs)) {
             $this->bootstrap(...$this->bootstrapArgs);
+
             return true;
         }
+
         return false;
     }
 }
