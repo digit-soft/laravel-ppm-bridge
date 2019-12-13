@@ -12,6 +12,20 @@ use Illuminate\Session\SessionManager;
 class Laravel extends \PHPPM\Bootstraps\Laravel
 {
     /**
+     * Possible request class names.
+     * @var array
+     */
+    protected $requestClassNames = [
+        '\App\Http\Request',        // Custom app request
+        '\Illuminate\Http\Request', // Laravel/Lumen request
+    ];
+    /**
+     * Request class name
+     * @var string
+     */
+    protected $requestClassName;
+
+    /**
      * Instantiate the bootstrap, storing the $appenv
      *
      * @param string|null $appenv The environment your application will use to bootstrap (if any)
@@ -54,7 +68,7 @@ class Laravel extends \PHPPM\Bootstraps\Laravel
         $isLaravel = true;
         if (file_exists('bootstrap/app.php')) {
             $this->app = require 'bootstrap/app.php';
-            if (substr($this->app->version(), 0, 5) === 'Lumen') {
+            if (strpos($this->app->version(), 'Lumen') === 0) {
                 $isLaravel = false;
             }
         }
@@ -100,5 +114,34 @@ class Laravel extends \PHPPM\Bootstraps\Laravel
         });
 
         return $kernel;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function requestClass()
+    {
+        // Determine request class
+        $this->determineRequestClass();
+
+        return $this->requestClassName;
+    }
+
+    /**
+     * Determine request class.
+     */
+    protected function determineRequestClass()
+    {
+        if ($this->requestClassName !== null) {
+            return;
+        }
+        foreach ($this->requestClassNames as $requestClass) {
+            if (class_exists($requestClass)) {
+                $this->requestClassName = $requestClass;
+                break;
+            }
+        }
+
+        $this->requestClassName = $this->requestClassName ?? '\Illuminate\Http\Request';
     }
 }
